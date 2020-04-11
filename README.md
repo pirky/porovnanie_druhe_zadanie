@@ -1,0 +1,1 @@
+Druhe zadanie, porovnanie implementacii
