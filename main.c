@@ -9,7 +9,6 @@
 #include "RedBlack_tree.c"
 
 ////vytvorenie polí, z ktorých budem pridávať dané hodnoty v testoch
-
 int *createArray0toN(int n){
     int *array = malloc(n * sizeof(int));
     for(int i = 0; i < n; i++){
@@ -45,7 +44,7 @@ int *createArrayNRandom(int n){
     return array;
 }
 
-////test pridanie všetkých prvkov poĽa
+////test pridanie všetkých prvkov poľa
 int test_insert_HASH_CHAINING(int n, int *array){
     TABLE *table = NULL;
     LARGE_INTEGER frequency;
@@ -82,7 +81,7 @@ int test_insert_AVL(int n, int *array){
             insert_AVL(array[i], &root);
         }
         QueryPerformanceCounter(&end);
-//        free_AVL(&root);
+        free_AVL(&root);
         temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
     }
     printf("%g\n",temp/SAMPLE);
@@ -95,17 +94,14 @@ int test_insert_BVS(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 1;
-    for(int j = 0; j < SAMPLE; j++){
-        QueryPerformanceFrequency(&frequency);
-        QueryPerformanceCounter(&start);
-        for(int i = 0; i < n; i++){
-            insert_BVS(array[i], &root);
-        }
-        QueryPerformanceCounter(&end);
-        temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&start);
+    for(int i = 0; i < n; i++){
+        insert_BVS(array[i], &root);
     }
-    printf("%g\n",temp/SAMPLE);
+    QueryPerformanceCounter(&end);
+    temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    printf("%g\n",temp);
     return 0;
 }
 
@@ -152,14 +148,39 @@ int test_insert_RB(int n, int *array){
 }
 
 void test_insert(int n, int * array){
-//    test_insert_HASH_CHAINING(n, array);
+    test_insert_HASH_CHAINING(n, array);
     test_insert_AVL(n, array);
-//    test_insert_BVS(n, array);
-//    test_insert_HASH_LINEAR(n, array);
-//    test_insert_RB(n,array);
+    test_insert_BVS(n, array);
+    test_insert_HASH_LINEAR(n, array);
+    test_insert_RB(n,array);
 }
 
 ////test vyhľadanie všetkých prvkov poľa
+int test_search_HASH_CHAINING(int n, int *array){
+    TABLE *table = NULL;
+    LARGE_INTEGER frequency;
+    LARGE_INTEGER start;
+    LARGE_INTEGER end;
+    double temp = 0;
+    int SAMPLE = 10;
+    for(int j = 0; j < SAMPLE; j++){
+        createTable(&table);
+        for(int i = 0; i < n; i++){
+            insert_HASH(array[i], &table);
+        }
+        QueryPerformanceFrequency(&frequency);
+        QueryPerformanceCounter(&start);
+        for(int i = 0; i < n; i++){
+            search_HASH(array[i], table);
+        }
+        QueryPerformanceCounter(&end);
+        freeTable(&table);
+        temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    }
+    printf("%g\n",temp/SAMPLE);
+    return 0;
+}
+
 int test_search_AVL(int n, int *array){
     NODE *root = NULL;
     LARGE_INTEGER frequency;
@@ -168,29 +189,96 @@ int test_search_AVL(int n, int *array){
     double temp = 0;
     int SAMPLE = 10;
     for(int j = 0; j < SAMPLE; j++){
+        for(int i = 0; i < n; i++){
+            insert_AVL(array[i], &root);
+        }
         QueryPerformanceFrequency(&frequency);
         QueryPerformanceCounter(&start);
-        for(int i = 0; i < 10000000; i++){
-            insert_AVL(i, &root);
-            search_AVL(i, root);
+        for(int i = 0; i < n; i++){
+            search_AVL(array[i], root);
         }
         QueryPerformanceCounter(&end);
+        free_AVL(&root);
         temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
     }
     printf("%g\n",temp/SAMPLE);
+    return 0;
+}
 
+int test_search_BVS(int n, int *array){
+    NODE_BVS *root = NULL;
+    LARGE_INTEGER frequency;
+    LARGE_INTEGER start;
+    LARGE_INTEGER end;
+    double temp = 0;
+    for(int i = 0; i < n; i++){
+        insert_BVS(array[i], &root);
+    }
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&start);
+    for(int i = 0; i < n; i++){
+        search_BVS(array[i], root);
+    }
+    QueryPerformanceCounter(&end);
+    temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    printf("%g\n",temp);
+    return 0;
+}
+
+int test_search_HASH_LINEAR(int n, int *array){
+    LARGE_INTEGER frequency;
+    LARGE_INTEGER start;
+    LARGE_INTEGER end;
+    double temp = 0;
+    int SAMPLE = 10;
     for(int j = 0; j < SAMPLE; j++){
+        hashArray = (struct DataItem**) malloc(SIZE *sizeof(struct DataItem*));
+        init();
+        for(int i = 0; i < n; i++){
+            insert_Linear(array[i],1);
+        }
         QueryPerformanceFrequency(&frequency);
         QueryPerformanceCounter(&start);
-        for(int i = 0; i < 10000000; i++){
-            search_AVL(i, root);
+        for(int i = 0; i < n; i++){
+            search_Linear(array[i]);
         }
         QueryPerformanceCounter(&end);
+        freeLinear();
         temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
     }
-    printf("AVL search: %20g",temp/SAMPLE);
-    free_AVL(&root);
+    printf("%g\n",temp/SAMPLE);
     return 0;
+}
+
+int test_search_RB(int n, int *array){
+    LARGE_INTEGER frequency;
+    LARGE_INTEGER start;
+    LARGE_INTEGER end;
+    double temp = 0;
+    int SAMPLE = 10;
+    for(int j = 0; j < SAMPLE; j++){
+        for(int i = 0; i < n; i++){
+            insert_RB(array[i]);
+        }
+        QueryPerformanceFrequency(&frequency);
+        QueryPerformanceCounter(&start);
+        for(int i = 0; i < n; i++){
+            search_RB(array[i],root_RB);
+        }
+        QueryPerformanceCounter(&end);
+        free_RB(&root_RB);
+        temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    }
+    printf("%g\n",temp/SAMPLE);
+    return 0;
+}
+
+void test_search(int n, int *array){
+    test_search_HASH_CHAINING(n,array);
+    test_search_AVL(n,array);
+    test_search_BVS(n,array);
+    test_search_HASH_LINEAR(n,array);
+    test_search_RB(n,array);
 }
 
 ////test pridanie a následne vyhľadanie prvku
@@ -245,18 +333,15 @@ int test_insert_search_BVS(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 1;
-    for(int j = 0; j < SAMPLE; j++){
-        QueryPerformanceFrequency(&frequency);
-        QueryPerformanceCounter(&start);
-        for(int i = 0; i < n; i++){
-            insert_BVS(array[i], &root);
-            search_BVS(array[i], root);
-        }
-        QueryPerformanceCounter(&end);
-        temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&start);
+    for(int i = 0; i < n; i++){
+        insert_BVS(array[i], &root);
+        search_BVS(array[i], root);
     }
-    printf("%g\n",temp/SAMPLE);
+    QueryPerformanceCounter(&end);
+    temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    printf("%g\n",temp);
     return 0;
 }
 
@@ -312,11 +397,55 @@ void test_insert_search(int n, int * array){
     test_insert_search_RB(n,array);
 }
 
-void main() {
-    int *array = NULL, n = 1000000;
+void test_0_To_N(int n){
+    int *array = NULL;
+    array = createArray0toN(n);
+    printf("Test pridanie od 0 do N:\n");
+    test_insert(n,array);
+    printf("Test najdenie od 0 do N:\n");
+    test_insert_search(n, array);
+    printf("Test pridanie a najdenie od 0 do N:\n");
+    test_search(n,array);
+}
+
+void test_N_To_0(int n){
+    int *array = NULL;
+    array = createArrayNto0(n);
+    printf("Test pridanie od N do 0:\n");
+    test_insert(n,array);
+    printf("Test najdenie od N do 0:\n");
+    test_insert_search(n, array);
+    printf("Test pridanie a najdenie od N do 0:\n");
+    test_search(n,array);
+}
+
+void test_N_Alternate(int n){
+    int *array = NULL;
+    array = createArrayNAlternate(n);
+    printf("Test pridanie alternujucej postupnosti:\n");
+    test_insert(n,array);
+    printf("Test najdenie alternujucej postupnosti:\n");
+    test_insert_search(n, array);
+    printf("Test pridanie a najdenie alternujucej postupnosti:\n");
+    test_search(n,array);
+}
+
+void test_N_Random(int n){
+    int *array = NULL;
     array = createArrayNRandom(n);
-//    test_insert(n,array);
-//    test_insert_search(n, array);
+    printf("Test pridanie pseudonahodnej postupnosti:\n");
+    test_insert(n,array);
+    printf("Test najdenie pseudonahodnej postupnosti:\n");
+    test_insert_search(n, array);
+    printf("Test pridanie a najdenie pseudonahodnej postupnosti:\n");
+    test_search(n,array);
+}
 
-
+int main() {
+    int n = 100000;
+    test_0_To_N(n);
+//    test_N_To_0(n);
+//    test_N_Alternate(n);
+//    test_N_Random(n);
+    return 0;
 }
