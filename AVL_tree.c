@@ -120,8 +120,8 @@ NODE *RR_rotation(NODE *A, NODE *B, NODE *C){                                   
     A->parent = B;
     A->right = B->left;
     B->left = A;
-    if(A->left != NULL){
-        A->left->parent = A;
+    if(A->right != NULL){
+        A->right->parent = A;
     }
     if(B->parent != NULL){
         if(B->parent->left == A){

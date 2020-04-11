@@ -315,7 +315,7 @@ void test_insert_search(int n, int * array){
 void main() {
     int *array = NULL, n = 1000000;
     array = createArrayNRandom(n);
-    test_insert(n,array);
+//    test_insert(n,array);
 //    test_insert_search(n, array);
 
 
