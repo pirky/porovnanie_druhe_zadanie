@@ -1,7 +1,5 @@
 // Implementing Red-Black Tree in C
-
-#include <stdio.h>
-#include <stdlib.h>
+//prevzaté z: https://www.programiz.com/dsa/red-black-tree
 
 enum nodeColor{
     RED,
@@ -24,7 +22,7 @@ struct rbNode *createNode_RB(int data){
     return newnode;
 }
 
-struct rbNode *search_RB(int number, struct rbNode *root) {
+struct rbNode *search_RB(int number, struct rbNode *root) {                                     //pridaná vlastná funkcia na prehľadávanie stromu
     struct rbNode *temp = root;
     while(temp != NULL) {
         if(number > temp->data){
@@ -129,7 +127,7 @@ void insert_RB(int data){
     root_RB->color = BLACK;
 }
 
-void print_RB(struct rbNode *temp, int height) {                                       //vypísanie stromu
+void print_RB(struct rbNode *temp, int height) {                                       //pridaná funkcia na vypísanie stromu
     if(temp) {
         if(temp->link[1]) {
             print_RB(temp->link[1], height + 1);
@@ -147,3 +145,15 @@ void print_RB(struct rbNode *temp, int height) {                                
     }
 }
 
+struct rbNode* free_RB(struct rbNode **temp){
+    if((*temp)->link[0]){
+        free_RB(&(*temp)->link[0]);
+        (*temp)->link[0] = NULL;
+    }
+    if((*temp)->link[1]){
+        free_RB(&(*temp)->link[1]);
+        (*temp)->link[1] = NULL;
+    }
+    free(*temp);
+    *temp = NULL;
+}

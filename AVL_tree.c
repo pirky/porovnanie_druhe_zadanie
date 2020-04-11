@@ -1,3 +1,4 @@
+
 #define BALANCE_FACTOR(node) (((node)->left != NULL && (node)->right != NULL) ? (((node)->right->height) - ((node)->left->height)) : (((node)->left == NULL && (node)->right != NULL) ? (node)->right->height : -(node)->left->height ))
 #define MAX(left, right) (((left) > (right)) ? (left) : (right))
 
@@ -253,7 +254,7 @@ void print_tree(NODE *temp, int height) {
  * po uvoľnení nastavím ľavý/pravý vrchol na NULL
  */
 
-NODE* free_AVL(NODE **temp){
+void free_AVL(NODE **temp){
     if((*temp)->left){
         free_AVL(&(*temp)->left);
         (*temp)->left = NULL;
@@ -264,4 +265,16 @@ NODE* free_AVL(NODE **temp){
     }
     free(*temp);
     *temp = NULL;
+}
+
+////test na správne rotácie s vypisovaním po každom pridaní prvku
+int test_na_rotacie(){
+    NODE *root = NULL;
+    int pole[7] = {4,3,1,6,7,5,2};
+    for(int i = 0;i<7;i++){
+        printf("\n------------------------\n");
+        insert_AVL(pole[i],&root);
+        print_tree(root,0);
+        printf("\n------------------------\n");
+    }
 }

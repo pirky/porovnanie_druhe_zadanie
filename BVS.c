@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 
 typedef struct node_BVS {
     int data;
@@ -55,15 +53,15 @@ void insert_BVS(int number, NODE_BVS **root) {
         if((number < temp->data) && (temp->left != NULL)) {                       //ak je číslo menšie ako číslo v uzle a existuje ľavé dieťa
             temp = temp->left;                                                    //vnorím sa do ľavého podstromu
         }
-        if((number > temp->data) && (temp->right != NULL)) {                      //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
+        else if((number > temp->data) && (temp->right != NULL)) {                      //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
             temp = temp->right;                                                   //vnorím sa do pravého podstromu
         }
-        if((number < temp->data) && (temp->left == NULL)) {                       //ak neexistuje ľavé dieťa vytvorím tam list s danou hodnotou
+        else if((number < temp->data) && (temp->left == NULL)) {                       //ak neexistuje ľavé dieťa vytvorím tam list s danou hodnotou
             temp->left = createNode_BVS(number, root);
             temp = temp->left;
             break;
         }
-        if((number > temp->data) && (temp->right == NULL)) {                      //ak neexistuje pravé dieťa vytvorím tam list s danou hodnotou
+        else if((number > temp->data) && (temp->right == NULL)) {                      //ak neexistuje pravé dieťa vytvorím tam list s danou hodnotou
             temp->right = createNode_BVS(number, root);
             temp = temp->right;
             break;
