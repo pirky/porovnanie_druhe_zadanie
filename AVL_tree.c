@@ -277,4 +277,5 @@ int test_na_rotacie(){
         print_tree(root,0);
         printf("\n------------------------\n");
     }
+    free_AVL(&root);
 }

@@ -7,14 +7,14 @@ typedef struct node_BVS {
 
 NODE_BVS *createNode_BVS(int number, NODE_BVS **root) {
     NODE_BVS *temp;
-    if((*root) == NULL) {                                                      //ak ešte neexistuje strom vytvorím koreň
+    if((*root) == NULL) {                                                       //ak ešte neexistuje strom vytvorím koreň
         (*root) = (NODE_BVS*) malloc(sizeof(NODE_BVS));
         (*root)->data = number;
         (*root)->left = NULL;
         (*root)->right = NULL;
         return (*root);
     }
-    else {                                                                 //keď už existuje strom, tak vytvorím do neho nový list
+    else {                                                                      //keď už existuje strom, tak vytvorím do neho nový list
         temp = (NODE_BVS *) malloc(sizeof(NODE_BVS));
         temp->data = number;
         temp->right = NULL;
@@ -29,7 +29,7 @@ NODE_BVS *search_BVS(int number, NODE_BVS *root) {
         if(number == temp->data){
             return temp;
         }
-        if(number < temp->data) {
+        else if(number < temp->data) {
             temp = temp->left;
         }
         else{
@@ -53,7 +53,7 @@ void insert_BVS(int number, NODE_BVS **root) {
         if((number < temp->data) && (temp->left != NULL)) {                       //ak je číslo menšie ako číslo v uzle a existuje ľavé dieťa
             temp = temp->left;                                                    //vnorím sa do ľavého podstromu
         }
-        else if((number > temp->data) && (temp->right != NULL)) {                      //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
+        else if((number > temp->data) && (temp->right != NULL)) {                   //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
             temp = temp->right;                                                   //vnorím sa do pravého podstromu
         }
         else if((number < temp->data) && (temp->left == NULL)) {                       //ak neexistuje ľavé dieťa vytvorím tam list s danou hodnotou

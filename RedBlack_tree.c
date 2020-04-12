@@ -1,5 +1,6 @@
 // Implementing Red-Black Tree in C
 //prevzaté z: https://www.programiz.com/dsa/red-black-tree
+//search prevzatý z: https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 
 enum nodeColor{
     RED,
@@ -22,20 +23,17 @@ struct rbNode *createNode_RB(int data){
     return newnode;
 }
 
-struct rbNode *search_RB(int number, struct rbNode *root) {                                     //pridaná vlastná funkcia na prehľadávanie stromu
-    struct rbNode *temp = root;
-    while(temp != NULL) {
-        if(number > temp->data){
-            temp = temp->link[1];
-        }
-        if(number < temp->data) {
-            temp = temp->link[0];
-        }
-        else{
-            return temp;
-        }
-    }
-    return NULL;
+struct rbNode* search_RB(int key, struct rbNode* root){                                     //pridaná funkcia na prehľadávanie stromu z geeksforgeeks.org
+    // Base Cases: root is null or key is present at root
+    if (root == NULL || root->data == key)
+        return root;
+
+    // Key is greater than root's key
+    if (root->data < key)
+        return search_RB(key,root->link[1]);
+
+    // Key is smaller than root's key
+    return search_RB( key,root->link[0]);
 }
 
 void insert_RB(int data){
@@ -127,7 +125,7 @@ void insert_RB(int data){
     root_RB->color = BLACK;
 }
 
-void print_RB(struct rbNode *temp, int height) {                                       //pridaná funkcia na vypísanie stromu
+void print_RB(struct rbNode *temp, int height) {                                       //pridaná funkcia na vypísanie stromu aj s farbou vrchola
     if(temp) {
         if(temp->link[1]) {
             print_RB(temp->link[1], height + 1);
@@ -136,8 +134,12 @@ void print_RB(struct rbNode *temp, int height) {                                
         for(int i = 0; i < height; i++){
             printf("    ");
         }
-
-        printf("%2d\n", temp->data);
+        if(temp->color == RED){
+            printf("%5dr\n", temp->data);
+        }
+        else{
+            printf("%5db\n", temp->data);
+        }
 
         if(temp->link[0]) {
             print_RB(temp->link[0], height + 1);
@@ -145,7 +147,7 @@ void print_RB(struct rbNode *temp, int height) {                                
     }
 }
 
-struct rbNode* free_RB(struct rbNode **temp){
+struct rbNode* free_RB(struct rbNode **temp){                                           //pridaná funkcia na uvoľnenie stromu
     if((*temp)->link[0]){
         free_RB(&(*temp)->link[0]);
         (*temp)->link[0] = NULL;

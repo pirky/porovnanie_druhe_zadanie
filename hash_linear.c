@@ -43,7 +43,7 @@ struct DataItem *search_Linear(int key) {
     return NULL;
 }
 
-void insert_Linear();
+void insert_Linear(int key, int data);
 
 void rehash(){
     int oldSize = size;

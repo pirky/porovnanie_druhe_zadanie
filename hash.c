@@ -1,7 +1,7 @@
 
-#define LOAD_FACTOR(N,M) (((double)(N) / (M) >= 1.5) ? 1:0)                         //macro na vypocet pomeru medzi velkostou tabuľky a počtom pridaných prvkov
-#define HASH_FUNCTION(x,M) ((x)%(M))                                                //hashovacia funkcia
-#define MIN_SIZE 13                                                                 //mnou zvolena minimalna velkost hashovacej tabulky
+#define LOAD_FACTOR(elements,size) (((double)(elements) / (size) >= 1.5) ? 1:0)     //macro na výpoćet pomeru medzi počtom pridaných prvkov a veľkosťou tabuľky
+#define HASH_FUNCTION(key,size) ((key)%(size))                                      //hešovacia funkcia
+#define MIN_SIZE 3                                                                 //mnou zvolená minimálna veľkosť hešovacej tabuľky
 
 typedef struct hash{
     int number;
@@ -36,6 +36,17 @@ HASH* search_HASH(int number, TABLE *table){                                    
 
 void resize();
 
+/*
+ * *pridám číslo do tabuľky na dané miesto
+*/
+
+TABLE** add_HASH(int number, TABLE **table){
+    (*table)->table[HASH_FUNCTION(number,(*table)->size)] = (HASH*)malloc(sizeof(HASH));
+    (*table)->table[HASH_FUNCTION(number,(*table)->size)]->number = number;
+    (*table)->table[HASH_FUNCTION(number,(*table)->size)]->next = NULL;
+    return table;
+}
+
 int insert_HASH(int number, TABLE **table){
     HASH *temp = NULL;
     if((*table)->table == NULL){                                                    //prazdna tabulka
@@ -43,9 +54,7 @@ int insert_HASH(int number, TABLE **table){
         for(int i = 0; i < (*table)->size; i++){
             (*table)->table[i] = NULL;
         }
-        (*table)->table[HASH_FUNCTION(number,(*table)->size)] = (HASH*)malloc(sizeof(HASH));
-        (*table)->table[HASH_FUNCTION(number,(*table)->size)]->number = number; //pridám číslo do tabuľky na dané miesto
-        (*table)->table[HASH_FUNCTION(number,(*table)->size)]->next = NULL;
+        table = add_HASH(number, table);
     }
     else{                                                                           //už niečo je v tabuľke
         if(search_HASH(number, *table)){
@@ -61,9 +70,7 @@ int insert_HASH(int number, TABLE **table){
             temp->next->next = NULL;
         }
         else{                                                                       //ak je "košík" prázdny
-            (*table)->table[HASH_FUNCTION(number,(*table)->size)] = (HASH*)malloc(sizeof(HASH));
-            (*table)->table[HASH_FUNCTION(number,(*table)->size)]->number = number;
-            (*table)->table[HASH_FUNCTION(number,(*table)->size)]->next = NULL;
+            table = add_HASH(number, table);
         }
     }
     (*table)->elements++;
@@ -139,4 +146,20 @@ void freeTable(TABLE **table) {                                                 
     }
     free(*table);
     *table = NULL;
+}
+
+void test_resize(){
+    TABLE *table = NULL;
+    createTable(&table);
+    for(int i = 0; i < 5; i++){
+        insert_HASH(i,&table);
+        if(i == 3){
+            printf("\n--------------------\n");
+            printTable(table);
+            printf("\n--------------------\n");
+        }
+    }
+    printTable(table);
+    printf("\n--------------------\n");
+    freeTable(&table);
 }

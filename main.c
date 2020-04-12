@@ -132,7 +132,7 @@ int test_insert_RB(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 10;
+    int SAMPLE = 1;
     for(int j = 0; j < SAMPLE; j++){
         QueryPerformanceFrequency(&frequency);
         QueryPerformanceCounter(&start);
@@ -152,7 +152,7 @@ void test_insert(int n, int * array){
     test_insert_AVL(n, array);
     test_insert_BVS(n, array);
     test_insert_HASH_LINEAR(n, array);
-    test_insert_RB(n,array);
+    test_insert_RB(n, array);
 }
 
 ////test vyhľadanie všetkých prvkov poľa
@@ -211,9 +211,15 @@ int test_search_BVS(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
+    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceCounter(&start);
     for(int i = 0; i < n; i++){
         insert_BVS(array[i], &root);
     }
+    QueryPerformanceCounter(&end);
+    temp += (double) (end.QuadPart - start.QuadPart) / frequency.QuadPart;
+    printf("%g\n",temp);
+    temp = 0;
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&start);
     for(int i = 0; i < n; i++){
@@ -274,11 +280,11 @@ int test_search_RB(int n, int *array){
 }
 
 void test_search(int n, int *array){
-    test_search_HASH_CHAINING(n,array);
-    test_search_AVL(n,array);
-    test_search_BVS(n,array);
-    test_search_HASH_LINEAR(n,array);
-    test_search_RB(n,array);
+    test_search_HASH_CHAINING(n, array);
+    test_search_AVL(n, array);
+    test_search_BVS(n, array);
+    test_search_HASH_LINEAR(n, array);
+    test_search_RB(n, array);
 }
 
 ////test pridanie a následne vyhľadanie prvku
@@ -394,18 +400,19 @@ void test_insert_search(int n, int * array){
     test_insert_search_AVL(n, array);
     test_insert_search_BVS(n, array);
     test_insert_search_HASH_LINEAR(n, array);
-    test_insert_search_RB(n,array);
+    test_insert_search_RB(n, array);
 }
 
+////spustenie testou s rôznymi postupnosťami
 void test_0_To_N(int n){
     int *array = NULL;
     array = createArray0toN(n);
     printf("Test pridanie od 0 do N:\n");
     test_insert(n,array);
     printf("Test najdenie od 0 do N:\n");
-    test_insert_search(n, array);
-    printf("Test pridanie a najdenie od 0 do N:\n");
     test_search(n,array);
+    printf("Test pridanie a najdenie od 0 do N:\n");
+    test_insert_search(n, array);
 }
 
 void test_N_To_0(int n){
@@ -414,9 +421,9 @@ void test_N_To_0(int n){
     printf("Test pridanie od N do 0:\n");
     test_insert(n,array);
     printf("Test najdenie od N do 0:\n");
-    test_insert_search(n, array);
-    printf("Test pridanie a najdenie od N do 0:\n");
     test_search(n,array);
+    printf("Test pridanie a najdenie od N do 0:\n");
+    test_insert_search(n, array);
 }
 
 void test_N_Alternate(int n){
@@ -425,9 +432,9 @@ void test_N_Alternate(int n){
     printf("Test pridanie alternujucej postupnosti:\n");
     test_insert(n,array);
     printf("Test najdenie alternujucej postupnosti:\n");
-    test_insert_search(n, array);
-    printf("Test pridanie a najdenie alternujucej postupnosti:\n");
     test_search(n,array);
+    printf("Test pridanie a najdenie alternujucej postupnosti:\n");
+    test_insert_search(n, array);
 }
 
 void test_N_Random(int n){
@@ -436,14 +443,14 @@ void test_N_Random(int n){
     printf("Test pridanie pseudonahodnej postupnosti:\n");
     test_insert(n,array);
     printf("Test najdenie pseudonahodnej postupnosti:\n");
-    test_insert_search(n, array);
-    printf("Test pridanie a najdenie pseudonahodnej postupnosti:\n");
     test_search(n,array);
+    printf("Test pridanie a najdenie pseudonahodnej postupnosti:\n");
+    test_insert_search(n, array);
 }
 
 int main() {
-    int n = 100000;
-    test_0_To_N(n);
+    int n = 7;
+//    test_0_To_N(n);
 //    test_N_To_0(n);
 //    test_N_Alternate(n);
 //    test_N_Random(n);
