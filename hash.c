@@ -105,7 +105,7 @@ void resize(TABLE **table){                                                     
             }
         }
     }
-    memcpy(table, &newTable,sizeof(newTable));                                      //zmena starej tabuľky na novú
+    *table = newTable;                                                              //zmena starej tabuľky na novú
 }
 
 void printTable(TABLE *table){                                                      //výpis tabuľky
