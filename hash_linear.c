@@ -55,7 +55,7 @@ int notprimeNumber_linear(int number){                                          
 
 int newSize_linear(int number){                                                              //zistenie novej veľkosti tabuľky (najbližšie 2-krát väčšie prvočíslo)
     number = number * 2 + 1;
-    while(notprimeNumber(number)){
+    while(notprimeNumber_linear(number)){
         number += 2;
     }
     return number;

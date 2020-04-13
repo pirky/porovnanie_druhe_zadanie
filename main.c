@@ -73,7 +73,7 @@ int test_insert_AVL(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 1;
+    int SAMPLE = 10;
     for(int j = 0; j < SAMPLE; j++){
         QueryPerformanceFrequency(&frequency);
         QueryPerformanceCounter(&start);
@@ -110,7 +110,7 @@ int test_insert_HASH_LINEAR(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 1;
+    int SAMPLE = 10;
     for(int j = 0; j < SAMPLE; j++){
         hashArray = (struct DataItem**) malloc(SIZE *sizeof(struct DataItem*));
         init();
@@ -132,7 +132,7 @@ int test_insert_RB(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    int SAMPLE = 1;
+    int SAMPLE = 10;
     for(int j = 0; j < SAMPLE; j++){
         QueryPerformanceFrequency(&frequency);
         QueryPerformanceCounter(&start);
@@ -148,12 +148,12 @@ int test_insert_RB(int n, int *array){
 }
 
 void test_insert(int n, int * array){
-    test_insert_HASH_CHAINING(n, array);
-    test_insert_AVL(n, array);
-    printf("\n");
-//    test_insert_BVS(n, array);
-    test_insert_HASH_LINEAR(n, array);
-    test_insert_RB(n, array);
+//    test_insert_HASH_CHAINING(n, array);
+//    test_insert_AVL(n, array);
+//    printf("\n");
+    test_insert_BVS(n, array);
+//    test_insert_HASH_LINEAR(n, array);
+//    test_insert_RB(n, array);
 }
 
 ////test vyhľadanie všetkých prvkov poľa
@@ -212,12 +212,12 @@ int test_search_BVS(int n, int *array){
     LARGE_INTEGER start;
     LARGE_INTEGER end;
     double temp = 0;
-    for(int i = 0; i < n; i++){
-        insert_BVS(array[i],&root);
+    for (int i = 0; i < n; i++) {
+        insert_BVS(array[i], &root);
     }
     QueryPerformanceFrequency(&frequency);
     QueryPerformanceCounter(&start);
-    for(int i = 0; i < n; i++){
+    for (int i = 0; i < n; i++) {
         search_BVS(array[i], root);
     }
     QueryPerformanceCounter(&end);
@@ -275,12 +275,12 @@ int test_search_RB(int n, int *array){
 }
 
 void test_search(int n, int *array){
-    test_search_HASH_CHAINING(n, array);
-    test_search_AVL(n, array);
-    printf("\n");
-//    test_search_BVS(n, array);
-    test_search_HASH_LINEAR(n, array);
-    test_search_RB(n, array);
+//    test_search_HASH_CHAINING(n, array);
+//    test_search_AVL(n, array);
+//    printf("\n");
+    test_search_BVS(n, array);
+//    test_search_HASH_LINEAR(n, array);
+//    test_search_RB(n, array);
 }
 
 ////test pridanie a následne vyhľadanie prvku
@@ -392,12 +392,12 @@ int test_insert_search_RB(int n, int *array){
 }
 
 void test_insert_search(int n, int * array){
-    test_insert_search_HASH_CHAINING(n, array);
-    test_insert_search_AVL(n, array);
-    printf("\n");
-//    test_insert_search_BVS(n, array);
-    test_insert_search_HASH_LINEAR(n, array);
-    test_insert_search_RB(n, array);
+//    test_insert_search_HASH_CHAINING(n, array);
+//    test_insert_search_AVL(n, array);
+//    printf("\n");
+    test_insert_search_BVS(n, array);
+//    test_insert_search_HASH_LINEAR(n, array);
+//    test_insert_search_RB(n, array);
 }
 
 ////spustenie testou s rôznymi postupnosťami
@@ -446,7 +446,7 @@ void test_N_Random(int n){
 }
 
 int main() {
-    int n = 10000000;
+    int n = 10000;
     test_0_To_N(n);
 //    test_N_To_0(n);
 //    test_N_Alternate(n);
