@@ -1,7 +1,7 @@
 
-#define LOAD_FACTOR(elements,size) (((double)(elements) / (size) >= 1.5) ? 1:0)     //macro na výpoćet pomeru medzi počtom pridaných prvkov a veľkosťou tabuľky
+#define LOAD_FACTOR(elements,size) (((double)(elements) / (size) >= 1.5) ? 1:0)     //macro na výpočet pomeru medzi počtom pridaných prvkov a veľkosťou tabuľky
 #define HASH_FUNCTION(key,size) ((key)%(size))                                      //hešovacia funkcia
-#define MIN_SIZE 3                                                                 //mnou zvolená minimálna veľkosť hešovacej tabuľky
+#define MIN_SIZE 13                                                                 //mnou zvolená minimálna veľkosť hešovacej tabuľky
 
 typedef struct hash{
     int number;
@@ -21,7 +21,7 @@ void createTable(TABLE **table){
     (*table)->table = NULL;
 }
 
-HASH* search_HASH(int number, TABLE *table){                                        //search funkcia pre Hashovaciu Tabulku
+HASH* search_HASH(int number, TABLE *table){                                        //search funkcia pre hešovaciu tabuľku
     HASH *temp = table->table[HASH_FUNCTION(number,table->size)];
     if(temp != NULL){
         while(temp != NULL){
@@ -49,7 +49,7 @@ TABLE** add_HASH(int number, TABLE **table){
 
 int insert_HASH(int number, TABLE **table){
     HASH *temp = NULL;
-    if((*table)->table == NULL){                                                    //prazdna tabulka
+    if((*table)->table == NULL){                                                    //prázdna tabuľka
         (*table)->table = (HASH**) malloc ((*table)->size * sizeof(HASH*));
         for(int i = 0; i < (*table)->size; i++){
             (*table)->table[i] = NULL;
@@ -60,7 +60,7 @@ int insert_HASH(int number, TABLE **table){
         if(search_HASH(number, *table)){
             return 0;
         }
-        if((*table)->table[HASH_FUNCTION(number,(*table)->size)]){              //ak už je nejaké číslo v danom "košíku"
+        if((*table)->table[HASH_FUNCTION(number,(*table)->size)]){             //ak už je nejaké číslo v danom "košíku"
             temp = (*table)->table[HASH_FUNCTION(number,(*table)->size)];
             while(temp->next != NULL){
                 temp = temp->next;
@@ -151,6 +151,7 @@ void freeTable(TABLE **table) {                                                 
 void test_resize(){
     TABLE *table = NULL;
     createTable(&table);
+    table->size = 3;
     for(int i = 0; i < 5; i++){
         insert_HASH(i,&table);
         if(i == 3){

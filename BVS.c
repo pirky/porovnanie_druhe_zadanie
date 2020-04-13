@@ -7,14 +7,14 @@ typedef struct node_BVS {
 
 NODE_BVS *createNode_BVS(int number, NODE_BVS **root) {
     NODE_BVS *temp;
-    if((*root) == NULL) {                                                       //ak ešte neexistuje strom vytvorím koreň
+    if((*root) == NULL) {                                                               //ak ešte neexistuje strom vytvorím koreň
         (*root) = (NODE_BVS*) malloc(sizeof(NODE_BVS));
         (*root)->data = number;
         (*root)->left = NULL;
         (*root)->right = NULL;
         return (*root);
     }
-    else {                                                                      //keď už existuje strom, tak vytvorím do neho nový list
+    else {                                                                              //keď už existuje strom, tak vytvorím do neho nový list
         temp = (NODE_BVS *) malloc(sizeof(NODE_BVS));
         temp->data = number;
         temp->right = NULL;
@@ -42,28 +42,26 @@ NODE_BVS *search_BVS(int number, NODE_BVS *root) {
 void insert_BVS(int number, NODE_BVS **root) {
     NODE_BVS *temp = (*root);
 
-    if((*root) == NULL) {                                                         //ak ešte neexistuje strom
+    if((*root) == NULL) {                                                               //ak ešte neexistuje strom
         (*root) = createNode_BVS(number, root);
         return;
     }
-    while(1) {                                                                    //pridanie čísla do stromu
+    while(1) {                                                                          //pridanie čísla do stromu
         if(number == temp->data){
             return;
         }
-        if((number < temp->data) && (temp->left != NULL)) {                       //ak je číslo menšie ako číslo v uzle a existuje ľavé dieťa
-            temp = temp->left;                                                    //vnorím sa do ľavého podstromu
+        if((number < temp->data) && (temp->left != NULL)) {                             //ak je číslo menšie ako číslo v uzle a existuje ľavé dieťa
+            temp = temp->left;                                                          //vnorím sa do ľavého podstromu
         }
-        else if((number > temp->data) && (temp->right != NULL)) {                   //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
-            temp = temp->right;                                                   //vnorím sa do pravého podstromu
+        else if((number > temp->data) && (temp->right != NULL)) {                       //ak je číslo väčšie ako číslo v uzle a existuje pravé dieťa
+            temp = temp->right;                                                         //vnorím sa do pravého podstromu
         }
-        else if((number < temp->data) && (temp->left == NULL)) {                       //ak neexistuje ľavé dieťa vytvorím tam list s danou hodnotou
+        else if((number < temp->data) && (temp->left == NULL)) {                        //ak neexistuje ľavé dieťa vytvorím tam list s danou hodnotou
             temp->left = createNode_BVS(number, root);
-            temp = temp->left;
             break;
         }
-        else if((number > temp->data) && (temp->right == NULL)) {                      //ak neexistuje pravé dieťa vytvorím tam list s danou hodnotou
+        else if((number > temp->data) && (temp->right == NULL)) {                       //ak neexistuje pravé dieťa vytvorím tam list s danou hodnotou
             temp->right = createNode_BVS(number, root);
-            temp = temp->right;
             break;
         }
     }

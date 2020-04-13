@@ -1,7 +1,7 @@
 //prevzaté z: https://www.tutorialspoint.com/data_structures_algorithms/hash_table_program_in_c.htm
 
 #define LOAD_LINEAR(N,M) (((double)(N) / (M) >= 0.75) ? 1:0)                            //pridané macro na výpocet pomeru medzi velkostou tabuľky
-#define SIZE 17                                                                         //a počtom pridaných prvkov
+#define SIZE 13                                                                         //a počtom pridaných prvkov
 
 struct DataItem {
     int data;
@@ -9,7 +9,6 @@ struct DataItem {
 };
 
 struct DataItem** hashArray = NULL;
-struct DataItem* item;
 int size = SIZE;
 int elements = 0;
 
@@ -45,9 +44,26 @@ struct DataItem *search_Linear(int key) {
 
 void insert_Linear(int key, int data);
 
+int notprimeNumber_linear(int number){                                                     //zistenie prvočísla
+    for(int i = 2; i < sqrt(number); i++){
+        if(number % i == 0){
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int newSize_linear(int number){                                                              //zistenie novej veľkosti tabuľky (najbližšie 2-krát väčšie prvočíslo)
+    number = number * 2 + 1;
+    while(notprimeNumber(number)){
+        number += 2;
+    }
+    return number;
+}
+
 void rehash(){
     int oldSize = size;
-    size *= 2;
+    size = newSize_linear(oldSize);
     struct DataItem** newArray = (struct DataItem**)malloc(size* sizeof(struct DataItem*));
     struct DataItem** oldArray = hashArray;
     hashArray = newArray;
