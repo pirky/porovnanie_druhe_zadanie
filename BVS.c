@@ -1,4 +1,5 @@
-
+#include <stdio.h>
+#include <stdlib.h>
 typedef struct node_BVS {
     int data;
     struct node_BVS *left;

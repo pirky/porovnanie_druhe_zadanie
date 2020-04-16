@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <profileapi.h>
 #include "AVL_tree.c"
 #include "BVS.c"
@@ -19,7 +18,7 @@ int *createArray0toN(int n){
 
 int *createArrayNto0(int n){
     int *array = malloc(n * sizeof(int));
-    for(int i = n; i > 0; i--){
+    for(int i = n-1; i >= 0; i--){
         array[i] = i;
     }
     return array;
@@ -148,12 +147,11 @@ int test_insert_RB(int n, int *array){
 }
 
 void test_insert(int n, int * array){
-//    test_insert_HASH_CHAINING(n, array);
-//    test_insert_AVL(n, array);
-//    printf("\n");
+    test_insert_HASH_CHAINING(n, array);
+    test_insert_AVL(n, array);
     test_insert_BVS(n, array);
-//    test_insert_HASH_LINEAR(n, array);
-//    test_insert_RB(n, array);
+    test_insert_HASH_LINEAR(n, array);
+    test_insert_RB(n, array);
 }
 
 ////test vyhľadanie všetkých prvkov poľa
@@ -275,12 +273,11 @@ int test_search_RB(int n, int *array){
 }
 
 void test_search(int n, int *array){
-//    test_search_HASH_CHAINING(n, array);
-//    test_search_AVL(n, array);
-//    printf("\n");
+    test_search_HASH_CHAINING(n, array);
+    test_search_AVL(n, array);
     test_search_BVS(n, array);
-//    test_search_HASH_LINEAR(n, array);
-//    test_search_RB(n, array);
+    test_search_HASH_LINEAR(n, array);
+    test_search_RB(n, array);
 }
 
 ////test pridanie a následne vyhľadanie prvku
@@ -392,12 +389,11 @@ int test_insert_search_RB(int n, int *array){
 }
 
 void test_insert_search(int n, int * array){
-//    test_insert_search_HASH_CHAINING(n, array);
-//    test_insert_search_AVL(n, array);
-//    printf("\n");
+    test_insert_search_HASH_CHAINING(n, array);
+    test_insert_search_AVL(n, array);
     test_insert_search_BVS(n, array);
-//    test_insert_search_HASH_LINEAR(n, array);
-//    test_insert_search_RB(n, array);
+    test_insert_search_HASH_LINEAR(n, array);
+    test_insert_search_RB(n, array);
 }
 
 ////spustenie testou s rôznymi postupnosťami
@@ -447,9 +443,13 @@ void test_N_Random(int n){
 
 int main() {
     int n = 10000;
+    printf("\nTest postupnost 0 až %d:\n",n);
     test_0_To_N(n);
-//    test_N_To_0(n);
-//    test_N_Alternate(n);
-//    test_N_Random(n);
+    printf("\nTest postupnost %d až 0:\n",n);
+    test_N_To_0(n);
+    printf("\nTest alternujuca postupnost %d cisel: \n",n);
+    test_N_Alternate(n);
+    printf("\nTest pseudonahodna postupnost %d cisel:\n",n);
+    test_N_Random(n);
     return 0;
 }

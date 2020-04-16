@@ -1,6 +1,8 @@
 // Implementing Red-Black Tree in C
 //prevzaté z: https://www.programiz.com/dsa/red-black-tree
 //search prevzatý z: https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
+#include <stdio.h>
+#include <stdlib.h>
 
 enum nodeColor{
     RED,

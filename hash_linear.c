@@ -1,5 +1,7 @@
 //prevzaté z: https://www.tutorialspoint.com/data_structures_algorithms/hash_table_program_in_c.htm
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #define LOAD_LINEAR(N,M) (((double)(N) / (M) >= 0.75) ? 1:0)                            //pridané macro na výpocet pomeru medzi velkostou tabuľky
 #define SIZE 13                                                                         //a počtom pridaných prvkov
 

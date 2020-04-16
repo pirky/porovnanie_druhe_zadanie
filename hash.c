@@ -1,4 +1,6 @@
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 #define LOAD_FACTOR(elements,size) (((double)(elements) / (size) >= 1.5) ? 1:0)     //macro na výpočet pomeru medzi počtom pridaných prvkov a veľkosťou tabuľky
 #define HASH_FUNCTION(key,size) ((key)%(size))                                      //hešovacia funkcia
 #define MIN_SIZE 13                                                                 //mnou zvolená minimálna veľkosť hešovacej tabuľky

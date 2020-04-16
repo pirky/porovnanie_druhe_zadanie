@@ -1,4 +1,5 @@
-
+#include <stdio.h>
+#include <stdlib.h>
 #define BALANCE_FACTOR(node) (((node)->left != NULL && (node)->right != NULL) ? (((node)->right->height) - ((node)->left->height)) : (((node)->left == NULL && (node)->right != NULL) ? (node)->right->height : -(node)->left->height ))
 #define MAX(left, right) (((left) > (right)) ? (left) : (right))
 
