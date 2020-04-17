@@ -39,7 +39,7 @@ HASH* search_HASH(int number, TABLE *table){                                    
 void resize();
 
 /*
- * *pridám číslo do tabuľky na dané miesto
+ * pridám číslo do tabuľky na dané miesto
 */
 
 TABLE** add_HASH(int number, TABLE **table){

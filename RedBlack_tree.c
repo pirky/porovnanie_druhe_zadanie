@@ -1,6 +1,3 @@
-// Implementing Red-Black Tree in C
-//prevzaté z: https://www.programiz.com/dsa/red-black-tree
-//search prevzatý z: https://www.geeksforgeeks.org/binary-search-tree-set-1-search-and-insertion/
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -127,7 +124,7 @@ void insert_RB(int data){
     root_RB->color = BLACK;
 }
 
-void print_RB(struct rbNode *temp, int height) {                                       //pridaná funkcia na vypísanie stromu aj s farbou vrchola
+void print_RB(struct rbNode *temp, int height) {                                            //pridaná funkcia na vypísanie stromu aj s farbou vrchola
     if(temp) {
         if(temp->link[1]) {
             print_RB(temp->link[1], height + 1);
@@ -149,7 +146,7 @@ void print_RB(struct rbNode *temp, int height) {                                
     }
 }
 
-struct rbNode* free_RB(struct rbNode **temp){                                           //pridaná funkcia na uvoľnenie stromu
+struct rbNode* free_RB(struct rbNode **temp){                                               //pridaná funkcia na uvoľnenie stromu
     if((*temp)->link[0]){
         free_RB(&(*temp)->link[0]);
         (*temp)->link[0] = NULL;

@@ -1,4 +1,3 @@
-//prevzaté z: https://www.tutorialspoint.com/data_structures_algorithms/hash_table_program_in_c.htm
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -46,7 +45,7 @@ struct DataItem *search_Linear(int key) {
 
 void insert_Linear(int key, int data);
 
-int notprimeNumber_linear(int number){                                                     //zistenie prvočísla
+int notprimeNumber_linear(int number){                                                  //zistenie prvočísla
     for(int i = 2; i < sqrt(number); i++){
         if(number % i == 0){
             return 1;
@@ -55,7 +54,7 @@ int notprimeNumber_linear(int number){                                          
     return 0;
 }
 
-int newSize_linear(int number){                                                              //zistenie novej veľkosti tabuľky (najbližšie 2-krát väčšie prvočíslo)
+int newSize_linear(int number){                                                         //zistenie novej veľkosti tabuľky (najbližšie 2-krát väčšie prvočíslo)
     number = number * 2 + 1;
     while(notprimeNumber_linear(number)){
         number += 2;
